@@ -9,9 +9,9 @@
                 "-G",
                 "Ninja",
                 "-B",
-                "${workspaceFolder}/APA/sorting/build",
+                "${workspaceFolder}/sorting/build",
                 "-S",
-                "${workspaceFolder}/APA/sorting"
+                "${workspaceFolder}/sorting"
             ],
             "problemMatcher": [],
             "group": {
@@ -25,7 +25,7 @@
             "command": "cmake",
             "args": [
                 "--build",
-                "${workspaceFolder}/APA/sorting/build"
+                "${workspaceFolder}/sorting/build"
             ],
             "dependsOn": "CMake: Configure",
             "problemMatcher": [
@@ -42,7 +42,7 @@
             "command": "cmake",
             "args": [
                 "--build",
-                "${workspaceFolder}/APA/sorting/build",
+                "${workspaceFolder}/sorting/build",
                 "--target",
                 "clean"
             ],
@@ -58,7 +58,7 @@
             "command": "conan",
             "args": [
             "install",
-            "${workspaceFolder}/APA/conan",
+            "${workspaceFolder}/conan",
             "--build=missing"
             ],
             "problemMatcher": [],
