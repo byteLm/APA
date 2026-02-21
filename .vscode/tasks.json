@@ -1,0 +1,71 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "CMake: Configure",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "-G",
+                "Ninja",
+                "-B",
+                "${workspaceFolder}/APA/sorting/build",
+                "-S",
+                "${workspaceFolder}/APA/sorting"
+            ],
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "CMake: Build",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "${workspaceFolder}/APA/sorting/build"
+            ],
+            "dependsOn": "CMake: Configure",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "CMake: Clean",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "${workspaceFolder}/APA/sorting/build",
+                "--target",
+                "clean"
+            ],
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "Conan: Install",
+            "type": "shell",
+            "command": "conan",
+            "args": [
+            "install",
+            "${workspaceFolder}/APA/conan",
+            "--build=missing"
+            ],
+            "problemMatcher": [],
+            "group": {
+            "kind": "build",
+            "isDefault": false
+            }
+        }
+    ]
+}
