@@ -7,9 +7,16 @@ project(SortAlgorithms)
 
 set(CMAKE_CXX_STANDARD 17)
 
-
 set(ROOT_DIR ${CMAKE_SOURCE_DIR})
 
-include_directories("common/")
+find_package(GTest)
+if(GTEST_FOUND)
+    message(STATUS "GTest found: ${GTEST_INCLUDE_DIRS}")
+else()
+    message(FATAL_ERROR "GTest not found")
+endif()
 
+
+include_directories("common/")
 add_subdirectory("insertion_sort")
+

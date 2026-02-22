@@ -4,6 +4,9 @@
 /// @param A The array to be sorted.
 /// @param n The size of the array.
 void InsertionSort::sort(int A[], int n){
+
+    if(n <= 1) return; // already sorted
+
     int pivo = -1;
     int j = -1; // cant be size_t because j-1 sometime goes to -1 
 
