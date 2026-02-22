@@ -36,12 +36,14 @@ namespace utils {
     /// @param seed The seed for the random number generator. Default is 42.
     /// @return A unique_ptr to an array of random integers with repeated values.
     std::unique_ptr<int[]> generateRandomArrayWithRepeatedValues(int size = 10, int minValue = 0, int maxValue = 999, float repetitionChance = 0.3, int seed = 42) {
-        
+    
         // random generator
         std::mt19937 gen(seed);
 
         // Pool size is determined by the repetition chance. The higher the repetition chance, the smaller the pool, and thus more repetitions in the final array.
-        int poolSize = static_cast<int>(size * repetitionChance); 
+        int poolSize = static_cast<int>(size * repetitionChance);
+        if (poolSize < 1) poolSize = 1; 
+
         std::uniform_int_distribution<> randomValues(minValue, maxValue);
 
         // Generate a pool of possible values to be appended in the final array.
