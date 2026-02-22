@@ -17,11 +17,11 @@ find_package(tabulate REQUIRED)
 
 include_directories("common/")
 add_subdirectory("insertion_sort")
-
+add_subdirectory("selection_sort")
 
 # Application which generates data and runs the sorting algorithms.
 add_executable(GenSortingData "main_generate_data.cpp")
 
-target_link_libraries(GenSortingData PUBLIC InsertionSortLib tabulate::tabulate)
+target_link_libraries(GenSortingData PUBLIC InsertionSortLib SelectionSortLib tabulate::tabulate)
 
 

@@ -1,3 +1,5 @@
+#if !defined(INTERFACES_SORTING)
+#define INTERFACES_SORTING
 #include <cstddef>
 #include <iostream>
 
@@ -6,3 +8,5 @@ class ISortingAlgorithm {
     public:
         virtual void sort(int arr[], int size) = 0;
 };
+
+#endif // INTERFACES_SORTING

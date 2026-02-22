@@ -1,6 +1,6 @@
 #include "InsertionSort.h"
+#include "SelectionSort.h"
 #include "utils.hpp"
-#include <tabulate/table.hpp>
 #include <fstream>
 #include <iostream>
 #include <chrono>
@@ -11,11 +11,6 @@ using namespace std::chrono;
 
 // That helps to pass sorting functions as parameters in the benchmark runner
 using SortFunction = std::function<void(int*, int)>;
-
-struct BenchResult {
-    long long insertion_us;
-    // long long bubble_us; // just placeholder for future algorithms
-};
 
 long long measureSort(SortFunction sortFunc, int* arr, int size) {
     auto start = high_resolution_clock::now();
@@ -28,10 +23,11 @@ void runBenchmark(std::string filename, std::function<std::unique_ptr<int[]>(int
     
     // csv header
     std::ofstream file(filename);    
-    file << "size,insertion_us,bubble_us\n";
+    file << "size,insertion_us,selection_us\n";
 
     // used sorting algorithms
     InsertionSort insSort;
+    SelectionSort selectSort;
 
     // benchmark loop
     std::cout << "Iniciando: " << filename << "..." << std::endl;
@@ -43,10 +39,15 @@ void runBenchmark(std::string filename, std::function<std::unique_ptr<int[]>(int
             auto baseArr = generator(size);
             if (!baseArr) throw std::runtime_error("Erro ao gerar array");
 
+            // insertion sort
             auto copyIns = utils::cloneArray(baseArr.get(), size);
             long long tIns = measureSort([&](int* a, int s){ insSort.sort(a, s); }, copyIns.get(), size);
 
-            file << size << "," << tIns << ",0\n";
+            // selection sort
+            auto copySelect = utils::cloneArray(baseArr.get(), size);
+            long long tSelec = measureSort([&](int* a, int s){ selectSort.sort(a, s); }, copySelect.get(), size);
+
+            file << size << "," << tIns << ',' << tSelec << "\n";
 
             if (i % 500 == 0) {
                 std::cout << "  Processado: " << i << "/5000" << std::endl;
