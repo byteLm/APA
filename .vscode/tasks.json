@@ -11,7 +11,11 @@
                 "-B",
                 "${workspaceFolder}/sorting/build",
                 "-S",
-                "${workspaceFolder}/sorting"
+                "${workspaceFolder}/sorting",
+                "-DCMAKE_TOOLCHAIN_FILE=${workspaceFolder}/sorting/build/conan_toolchain.cmake",
+                "-DCMAKE_PREFIX_PATH=${workspaceFolder}/sorting/build",
+                "-DCMAKE_POLICY_DEFAULT_CMP0091=NEW",
+                "-DCMAKE_BUILD_TYPE=Release"
             ],
             "problemMatcher": [],
             "group": {
@@ -34,6 +38,9 @@
             "group": {
                 "kind": "build",
                 "isDefault": true
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/sorting/build"
             }
         },
         {
@@ -55,17 +62,8 @@
         {
             "label": "Conan: Install",
             "type": "shell",
-            "command": "conan",
-            "args": [
-            "install",
-            "${workspaceFolder}/conan",
-            "--build=missing"
-            ],
-            "problemMatcher": [],
-            "group": {
-            "kind": "build",
-            "isDefault": false
-            }
+            "command": "venv/Scripts/Activate.ps1; conan profile detect; conan install conan/conanfile.txt --output-folder=sorting/build --build=missing -c tools.cmake.cmaketoolchain:generator=Ninja"
         }
+        
     ]
 }

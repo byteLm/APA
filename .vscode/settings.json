@@ -1,0 +1,5 @@
+{
+    "cmake.sourceDirectory": "./sorting",
+    // to find all tests testmate
+    "testMate.cpp.test.executables": "**/{build,Build,BUILD,out,Out,OUT}/**/*{test,Test,TEST}*",
+}
