@@ -9,14 +9,19 @@ set(CMAKE_CXX_STANDARD 17)
 
 set(ROOT_DIR ${CMAKE_SOURCE_DIR})
 
-find_package(GTest)
-if(GTEST_FOUND)
-    message(STATUS "GTest found: ${GTEST_INCLUDE_DIRS}")
-else()
-    message(FATAL_ERROR "GTest not found")
-endif()
+
+# 3rdParty libraries
+find_package(GTest REQUIRED)
+find_package(tabulate REQUIRED)
 
 
 include_directories("common/")
 add_subdirectory("insertion_sort")
+
+
+# Application which generates data and runs the sorting algorithms.
+add_executable(GenSortingData "main_generate_data.cpp")
+
+target_link_libraries(GenSortingData PUBLIC InsertionSortLib tabulate::tabulate)
+
 

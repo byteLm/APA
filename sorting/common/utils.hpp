@@ -108,5 +108,15 @@ namespace utils {
     }
 
 
+    /// @brief Clones an array of integers.
+    /// @param source The source array to be cloned.
+    /// @param size The size of the array to be cloned.
+    /// @return A unique_ptr to a cloned array of integers.
+    std::unique_ptr<int[]> cloneArray(int* source, int size) {
+        auto copy = std::make_unique<int[]>(size);
+        std::copy(source, source + size, copy.get());
+        return copy;
+    }
+
 }
 #endif //APA_UTILS_HPP
