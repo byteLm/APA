@@ -1,5 +1,7 @@
-#if !defined(INTERFACES_SORTING)
-#define INTERFACES_SORTING
+
+#ifndef ISORTINGALGORITHMS_H
+#define ISORTINGALGORITHMS_H
+
 #include <cstddef>
 #include <iostream>
 #include "utils.hpp"
@@ -10,4 +12,5 @@ class ISortingAlgorithm {
         virtual void sort(int arr[], int size) = 0;
 };
 
-#endif // INTERFACES_SORTING
+
+#endif // ISORTINGALGORITHMS_H
