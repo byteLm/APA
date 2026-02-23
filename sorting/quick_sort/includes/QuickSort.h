@@ -5,7 +5,7 @@
 
 #include "ISortingAlgorithms.h"
 #include "IPartitionStrategy.h"
-#include "strategys/partition/HoarePartition.h"
+#include "strategys/partition/HoarePartition.hpp"
 
 
 class QuickSort : public ISortingAlgorithm {
