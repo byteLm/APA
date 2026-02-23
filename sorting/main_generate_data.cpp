@@ -9,13 +9,14 @@
 #include "InsertionSort.h"
 #include "SelectionSort.h"
 #include "MergeSort.h"
+#include "QuickSort.h"
 
 using namespace std::chrono;
 
 using Clock = std::chrono::steady_clock;
-using SortFunction = std::function<void(int*, int)>;
 
-long long measureSingleSort(SortFunction sortFunc, int* arr, int size) {
+template <typename SortFunc>
+long long measureSingleSort(SortFunc sortFunc, int* arr, int size) {
     auto start = Clock::now();
     sortFunc(arr, size);
     auto end = Clock::now();
@@ -26,13 +27,14 @@ void runBenchmark(std::string filename, std::function<std::unique_ptr<int[]>(int
    
     const int NUM_RUNS = 5; // for each arr_size, we'll run this many times and take the average to get a more stable measurement
     const size_t MAX_ARRAY_SIZE = 5000; 
-   
-    std::ofstream file(filename);    
-    file << "size,insertion_ns_avg_" << NUM_RUNS << ",selection_ns_avg_" << NUM_RUNS << ",merge_ns_avg_" << NUM_RUNS << "\n";
 
     InsertionSort insSort;
     SelectionSort selectSort;
     MergeSort mergeSort;
+    QuickSort quickSort;
+   
+    std::ofstream file(filename);    
+    file << "size,insertion_ns_avg_" << NUM_RUNS << ",selection_ns_avg_" << NUM_RUNS << ",merge_ns_avg_" << NUM_RUNS << ",quick_ns_avg_" << NUM_RUNS << "\n";
 
     std::cout << "Iniciando: " << filename << "..." << std::endl;
 
@@ -51,6 +53,7 @@ void runBenchmark(std::string filename, std::function<std::unique_ptr<int[]>(int
             long long totalIns = 0;
             long long totalSelec = 0;
             long long totalMerge = 0;
+            long long totalQuick = 0;
 
             for (int r = 0; r < NUM_RUNS; r++) {
                 // Insertion Sort
@@ -64,14 +67,19 @@ void runBenchmark(std::string filename, std::function<std::unique_ptr<int[]>(int
                 // Merge Sort
                 auto copyMerge = utils::cloneArray(baseArr.get(), size);
                 totalMerge += measureSingleSort([&](int* a, int s){ mergeSort.sort(a, s); }, copyMerge.get(), size);
+
+                // Quick Sort
+                auto copyQuick = utils::cloneArray(baseArr.get(), size);
+                totalQuick += measureSingleSort([&](int* a, int s){ quickSort.sort(a, s); }, copyQuick.get(), size);
             }
 
             // Calculate averages
             long long avgIns = totalIns / NUM_RUNS;
             long long avgSelec = totalSelec / NUM_RUNS;
             long long avgMerge = totalMerge / NUM_RUNS;
+            long long avgQuick = totalQuick / NUM_RUNS;
 
-            file << size << "," << avgIns << "," << avgSelec << "," << avgMerge << "\n";
+            file << size << "," << avgIns << "," << avgSelec << "," << avgMerge << "," << avgQuick << "\n";
 
             if (i % 500 == 0) {
                 std::cout << "  Processado: " << i << "/" << MAX_ARRAY_SIZE << std::endl;

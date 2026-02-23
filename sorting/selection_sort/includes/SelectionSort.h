@@ -1,4 +1,4 @@
-#include "interfaces.h"
+#include "ISortingAlgorithms.h"
 
 class SelectionSort : public ISortingAlgorithm {
     public:

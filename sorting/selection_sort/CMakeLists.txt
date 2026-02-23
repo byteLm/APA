@@ -1,6 +1,6 @@
 
 
-include_directories("includes/") # insertion_sort/includes/
+include_directories("includes/") 
 add_library(SelectionSortLib "src/SelectionSort.cpp")
 target_include_directories(SelectionSortLib PUBLIC "includes/") 
 

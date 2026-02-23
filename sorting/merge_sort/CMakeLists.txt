@@ -1,6 +1,6 @@
 
 
-include_directories("includes/") # insertion_sort/includes/
+include_directories("includes/") 
 add_library(MergeSortLib "src/MergeSort.cpp")
 target_include_directories(MergeSortLib PUBLIC "includes/") 
 
