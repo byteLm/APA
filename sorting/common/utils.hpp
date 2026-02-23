@@ -119,7 +119,7 @@ namespace utils {
     }
 
 
-    /// @brief Copies a portion of an array into a vector. This is useful for the merge step in the merge sort algorithm, where we need to create temporary arrays (or vectors) to hold the left and right halves of the array being merged.
+    /// @brief Copies a portion of an array into a vector.
     /// @param arr The source array from which to copy values.
     /// @param start The starting index of the portion of the array to copy.
     /// @param end The ending index of the portion of the array to copy.
@@ -127,6 +127,16 @@ namespace utils {
     /// @brief Copies a portion of an array into a vector...
     inline std::vector<int> copyArrayToVector(int arr[], size_t start, size_t end) {
         return std::vector<int>(arr + start, arr + end + 1);
+    }
+
+    /// @brief Swaps two elements in an array.
+    /// @param arr The array in which the elements will be swapped.
+    /// @param idxA The index of the first element to be swapped.
+    /// @param idxB The index of the second element to be swapped.
+    inline void swap(int arr[], size_t idxA, size_t idxB){
+        int temp = arr[idxA];
+        arr[idxA] = arr[idxB];
+        arr[idxB] = temp;
     }
 }
 #endif //APA_UTILS_HPP

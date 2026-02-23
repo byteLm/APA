@@ -13,13 +13,8 @@ void SelectionSort::sort(int A[], int n){
                 i_min = j;
         }
         if(A[i] != A[i_min]){
-            exchange(A, i, i_min);
+            utils::swap(A, i, i_min);
         }
     }
 }
 
-void SelectionSort::exchange(int arr[], size_t idxA, size_t idxB){
-    int temp = arr[idxA];
-    arr[idxA] = arr[idxB];
-    arr[idxB] = temp;
-}
