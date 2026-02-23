@@ -16,7 +16,7 @@ namespace utils {
     /// @param maxValue  The maximum value for the random integers. Default is 999.
     /// @param seed The seed for the random number generator. Default is 42.
     /// @return A unique_ptr to an array of random integers.
-    std::unique_ptr<int[]> generateRandomArray(int size = 10, int minValue = 0, int maxValue = 999, int seed = 42) {
+    inline std::unique_ptr<int[]> generateRandomArray(int size = 10, int minValue = 0, int maxValue = 999, int seed = 42) {
         std::mt19937 gen(seed);
         std::uniform_int_distribution<> dis(minValue, maxValue);
         
@@ -35,7 +35,7 @@ namespace utils {
     /// @param repetitionChance The chance that a value will be repeated in the array. It should be between 0 and 1. Default is 0.3 (30% chance of repetition).
     /// @param seed The seed for the random number generator. Default is 42.
     /// @return A unique_ptr to an array of random integers with repeated values.
-    std::unique_ptr<int[]> generateRandomArrayWithRepeatedValues(int size = 10, int minValue = 0, int maxValue = 999, float repetitionChance = 0.3, int seed = 42) {
+    inline std::unique_ptr<int[]> generateRandomArrayWithRepeatedValues(int size = 10, int minValue = 0, int maxValue = 999, float repetitionChance = 0.3, int seed = 42) {
     
         // random generator
         std::mt19937 gen(seed);
@@ -69,7 +69,7 @@ namespace utils {
     /// @param maxValue  The maximum value for the random integers. Default is 999.
     /// @param seed The seed for the random number generator. Default is 42.
     /// @return A unique_ptr to a sorted array of random integers.
-    std::unique_ptr<int[]> generateSortedArray(int size = 10, int minValue = 0, int maxValue = 999, int seed = 42) {
+    inline std::unique_ptr<int[]> generateSortedArray(int size = 10, int minValue = 0, int maxValue = 999, int seed = 42) {
         std::mt19937 gen(seed);
         std::uniform_int_distribution<> dis(minValue, maxValue);
         auto arr = std::make_unique<int[]>(size);
@@ -86,7 +86,7 @@ namespace utils {
     /// @param maxValue  The maximum value for the random integers. Default is 999.
     /// @param seed  The seed for the random number generator. Default is 42.
     /// @return A unique_ptr to a reverse sorted array of random integers.
-    std::unique_ptr<int[]> generateReverseSortedArray(int size = 10, int minValue = 0, int maxValue = 999, int seed = 42) {
+    inline std::unique_ptr<int[]> generateReverseSortedArray(int size = 10, int minValue = 0, int maxValue = 999, int seed = 42) {
         std::mt19937 gen(seed);
         std::uniform_int_distribution<> dis(minValue, maxValue);
         auto arr = std::make_unique<int[]>(size);
@@ -100,7 +100,7 @@ namespace utils {
     /// @brief It just print the array in a nice format. It is useful for debugging and testing purposes.
     /// @param arr The array to be printed.
     /// @param size The size of the array.
-    void printArray(const int arr[], int size) {
+    inline void printArray(const int arr[], int size) {
         for (int i = 0; i < size; i++) {
             std::cout << arr[i] << " ";
         }
@@ -112,11 +112,21 @@ namespace utils {
     /// @param source The source array to be cloned.
     /// @param size The size of the array to be cloned.
     /// @return A unique_ptr to a cloned array of integers.
-    std::unique_ptr<int[]> cloneArray(int* source, int size) {
+    inline std::unique_ptr<int[]> cloneArray(int* source, int size) {
         auto copy = std::make_unique<int[]>(size);
         std::copy(source, source + size, copy.get());
         return copy;
     }
 
+
+    /// @brief Copies a portion of an array into a vector. This is useful for the merge step in the merge sort algorithm, where we need to create temporary arrays (or vectors) to hold the left and right halves of the array being merged.
+    /// @param arr The source array from which to copy values.
+    /// @param start The starting index of the portion of the array to copy.
+    /// @param end The ending index of the portion of the array to copy.
+    /// @return A vector containing the copied portion of the array.
+    /// @brief Copies a portion of an array into a vector...
+    inline std::vector<int> copyArrayToVector(int arr[], size_t start, size_t end) {
+        return std::vector<int>(arr + start, arr + end + 1);
+    }
 }
 #endif //APA_UTILS_HPP

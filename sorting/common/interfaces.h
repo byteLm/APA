@@ -2,6 +2,7 @@
 #define INTERFACES_SORTING
 #include <cstddef>
 #include <iostream>
+#include "utils.hpp"
 
 /// @brief Interface for sorting algorithms.
 class ISortingAlgorithm {
