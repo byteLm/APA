@@ -1,19 +1,34 @@
 {
     "version": "2.0.0",
+    "inputs": [
+        {
+            "id": "moduleFolder",
+            "type": "pickString",
+            "description": "Selecione qual o módulo a configurar/compilar/testar:",
+            "options": [
+                "sorting",
+                "knapsack-problem-0-1"
+            ],
+            "default": "knapsack-problem-0-1"
+        }
+    ],
     "tasks": [
+        {
+            "label": "Conan: Install",
+            "type": "shell",
+            "command": "venv/Scripts/Activate.ps1; conan profile detect; conan install conan/conanfile.txt --output-folder=${input:moduleFolder}/build --build=missing -c tools.cmake.cmaketoolchain:generator=Ninja",
+            "problemMatcher": []
+        },
         {
             "label": "CMake: Configure",
             "type": "shell",
             "command": "cmake",
             "args": [
-                "-G",
-                "Ninja",
-                "-B",
-                "${workspaceFolder}/sorting/build",
-                "-S",
-                "${workspaceFolder}/sorting",
-                "-DCMAKE_TOOLCHAIN_FILE=${workspaceFolder}/sorting/build/conan_toolchain.cmake",
-                "-DCMAKE_PREFIX_PATH=${workspaceFolder}/sorting/build",
+                "-G", "Ninja",
+                "-B", "${workspaceFolder}/${input:moduleFolder}/build",
+                "-S", "${workspaceFolder}/${input:moduleFolder}",
+                "-DCMAKE_TOOLCHAIN_FILE=${workspaceFolder}/${input:moduleFolder}/build/conan_toolchain.cmake",
+                "-DCMAKE_PREFIX_PATH=${workspaceFolder}/${input:moduleFolder}/build",
                 "-DCMAKE_POLICY_DEFAULT_CMP0091=NEW",
                 "-DCMAKE_BUILD_TYPE=Release"
             ],
@@ -29,7 +44,7 @@
             "command": "cmake",
             "args": [
                 "--build",
-                "${workspaceFolder}/sorting/build"
+                "${workspaceFolder}/${input:moduleFolder}/build"
             ],
             "dependsOn": "CMake: Configure",
             "problemMatcher": [
@@ -40,7 +55,23 @@
                 "isDefault": true
             },
             "options": {
-                "cwd": "${workspaceFolder}/sorting/build"
+                "cwd": "${workspaceFolder}/${input:moduleFolder}/build"
+            }
+        },
+        {
+            "label": "CMake: Test",
+            "type": "shell",
+            "command": "ctest",
+            "args": [
+                "--test-dir", "${workspaceFolder}/${input:moduleFolder}/build",
+                "--output-on-failure",
+                "--build-config", "Release"
+            ],
+            "dependsOn": "CMake: Build",
+            "problemMatcher": [],
+            "group": {
+                "kind": "test",
+                "isDefault": true
             }
         },
         {
@@ -49,7 +80,7 @@
             "command": "cmake",
             "args": [
                 "--build",
-                "${workspaceFolder}/sorting/build",
+                "${workspaceFolder}/${input:moduleFolder}/build",
                 "--target",
                 "clean"
             ],
@@ -58,12 +89,6 @@
                 "kind": "build",
                 "isDefault": false
             }
-        },
-        {
-            "label": "Conan: Install",
-            "type": "shell",
-            "command": "venv/Scripts/Activate.ps1; conan profile detect; conan install conan/conanfile.txt --output-folder=sorting/build --build=missing -c tools.cmake.cmaketoolchain:generator=Ninja"
         }
-        
     ]
 }
