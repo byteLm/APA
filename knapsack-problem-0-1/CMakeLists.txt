@@ -16,10 +16,12 @@ find_package(GTest REQUIRED)
 
 include_directories("common/")
 add_subdirectory("greedy")
+add_subdirectory("brute-force")
+add_subdirectory("dynamic-programming")
 
 # Application which generates data and runs the sorting algorithms.
-# add_executable(GenSortingData "main_generate_data.cpp")
+add_executable(GenKnapSackData "main_knapsack.cpp")
 
-# target_link_libraries(GenSortingData PUBLIC InsertionSortLib SelectionSortLib MergeSortLib QuickSortLib )
+target_link_libraries(GenKnapSackData PUBLIC GreedyLib BruteForceLib DPSolverLib)
 
 
