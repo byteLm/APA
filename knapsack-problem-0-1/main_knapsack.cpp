@@ -8,6 +8,7 @@
 #include "Greedy.h"
 #include "BruteForce.h" 
 #include "DPSolver.h" 
+#include "ORToolsSolverWrapper.h"
 
 using namespace std::chrono;
 using Clock = std::chrono::steady_clock;
@@ -31,6 +32,8 @@ long long measureSingleSolve(SolveFunc solveFunc) {
 
 void runAPSBenchmark(std::string filename) {
     
+    const int MAX_BRUTE_FORCE_N = 35; 
+
     std::vector<ApsTestCase> testCases = {
         {10, 10, 1, 10, 1, 1000},  
         {15, 10, 1, 10, 1, 1000},  
@@ -40,7 +43,11 @@ void runAPSBenchmark(std::string filename) {
         {30, 20, 1, 20, 1, 1000},  
         {32, 20, 1, 20, 1, 1000},  // 2^32!!
         
-        {50, 30, 1, 30, 1, 1000},  // REQUESTED
+        {33, 20, 1, 20, 1, 1000},  
+        {34, 20, 1, 20, 1, 1000},  
+        {35, 20, 1, 20, 1, 1000}, 
+        
+        {50, 30, 1, 30, 1, 1000},  // REQUESTED  
         {100, 30, 1, 30, 1, 1000}, // REQUESTED
         {200, 50, 1, 50, 1, 1000}, // REQUESTED
         {300, 50, 1, 50, 1, 1000}, 
@@ -68,11 +75,13 @@ void runAPSBenchmark(std::string filename) {
     GreedySolver greedy;
     BruteForceSolver bruteForce;
     DPSolver dp;
+    ORToolsSolver ort;
     
     std::ofstream file(filename);    
     file << "n,Q,greedy_ns_avg" 
          << ",bruteforce_ns_avg" 
          << ",dp_ns_avg" 
+         << ",ortools_ns_avg" 
          << "\n";
 
     std::cout << "Iniciando Benchmark da APS: " << filename << "..." << std::endl;
@@ -90,6 +99,7 @@ void runAPSBenchmark(std::string filename) {
             long long totalGreedy = 0;
             long long totalBrute = 0;
             long long totalDP = 0;
+            long long totalORTools = 0;
 
             for (int r = 0; r < NUM_RUNS; r++) {
 
@@ -98,7 +108,7 @@ void runAPSBenchmark(std::string filename) {
                     greedy.solve(weights.get(), values.get(), test.Q, test.n, test.n, solution.get()); 
                 });
 
-                if (test.n <= 32) {
+                if (test.n <= MAX_BRUTE_FORCE_N) {
                     std::fill(solution.get(), solution.get() + test.n, 0);
                     totalBrute += measureSingleSolve([&]() { 
                         bruteForce.solve(weights.get(), values.get(), test.Q, test.n, test.n, solution.get()); 
@@ -111,15 +121,22 @@ void runAPSBenchmark(std::string filename) {
                 totalDP += measureSingleSolve([&]() { 
                     dp.solve(weights.get(), values.get(), test.Q, test.n, test.n, solution.get()); 
                 });
+
+                std::fill(solution.get(), solution.get() + test.n, 0);
+                totalORTools += measureSingleSolve([&]() { 
+                    ort.solve(weights.get(), values.get(), test.Q, test.n, test.n, solution.get()); 
+                });
             }
 
             long long avgGreedy = totalGreedy / NUM_RUNS;
-            long long avgBrute = (test.n <= 32) ? (totalBrute / NUM_RUNS) : -1;
+            long long avgBrute = (test.n <= MAX_BRUTE_FORCE_N) ? (totalBrute / NUM_RUNS) : -1;
             long long avgDP = totalDP / NUM_RUNS;
+            long long avgORTools = totalORTools / NUM_RUNS;
 
             file << test.n << "," << test.Q << "," << avgGreedy 
                  << "," << avgBrute 
                  << "," << avgDP 
+                 << "," << avgORTools
                  << "\n";
                  
             std::cout << " [OK]" << std::endl;
@@ -132,6 +149,7 @@ void runAPSBenchmark(std::string filename) {
     file.close();
     std::cout << "\nResultados salvos com sucesso em: " << filename << std::endl;
 }
+
 int main() {
     runAPSBenchmark("resultados_aps_mochila.csv");
     return 0;

@@ -12,9 +12,12 @@ set(ROOT_DIR ${CMAKE_SOURCE_DIR})
 
 # 3rdParty libraries
 find_package(GTest REQUIRED)
+find_package(ortools CONFIG REQUIRED)
 
 
 include_directories("common/")
+include_directories("3rdParty/")
+
 add_subdirectory("greedy")
 add_subdirectory("brute-force")
 add_subdirectory("dynamic-programming")
@@ -22,6 +25,6 @@ add_subdirectory("dynamic-programming")
 # Application which generates data and runs the sorting algorithms.
 add_executable(GenKnapSackData "main_knapsack.cpp")
 
-target_link_libraries(GenKnapSackData PUBLIC GreedyLib BruteForceLib DPSolverLib)
+target_link_libraries(GenKnapSackData PUBLIC GreedyLib BruteForceLib DPSolverLib ortools::ortools)
 
 

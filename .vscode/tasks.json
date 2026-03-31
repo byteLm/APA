@@ -19,19 +19,10 @@
             "command": "venv/Scripts/Activate.ps1; conan profile detect; conan install conan/conanfile.txt --output-folder=${input:moduleFolder}/build --build=missing -c tools.cmake.cmaketoolchain:generator=Ninja",
             "problemMatcher": []
         },
-        {
+       {
             "label": "CMake: Configure",
             "type": "shell",
-            "command": "cmake",
-            "args": [
-                "-G", "Ninja",
-                "-B", "${workspaceFolder}/${input:moduleFolder}/build",
-                "-S", "${workspaceFolder}/${input:moduleFolder}",
-                "-DCMAKE_TOOLCHAIN_FILE=${workspaceFolder}/${input:moduleFolder}/build/conan_toolchain.cmake",
-                "-DCMAKE_PREFIX_PATH=${workspaceFolder}/${input:moduleFolder}/build",
-                "-DCMAKE_POLICY_DEFAULT_CMP0091=NEW",
-                "-DCMAKE_BUILD_TYPE=Release"
-            ],
+            "command": "venv/Scripts/Activate.ps1; cmake -G Ninja -B '${workspaceFolder}/${input:moduleFolder}/build' -S '${workspaceFolder}/${input:moduleFolder}' -DCMAKE_TOOLCHAIN_FILE='${workspaceFolder}/${input:moduleFolder}/build/conan_toolchain.cmake' -DCMAKE_PREFIX_PATH='${workspaceFolder}/${input:moduleFolder}/build;${workspaceFolder}/${input:moduleFolder}/3rdParty/or-tools' -DCMAKE_POLICY_DEFAULT_CMP0091=NEW -DCMAKE_BUILD_TYPE=Release",
             "problemMatcher": [],
             "group": {
                 "kind": "build",

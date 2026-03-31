@@ -7,3 +7,7 @@
 
 # analysis results
 *.csv
+
+#3rdParties
+*.zip
+knapsack-problem-0-1/3rdParty/or-tools/**
