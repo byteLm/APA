@@ -21,6 +21,7 @@ include_directories("3rdParty/")
 add_subdirectory("greedy")
 add_subdirectory("brute-force")
 add_subdirectory("dynamic-programming")
+add_subdirectory("or-tools/tests") # just tests
 
 # Application which generates data and runs the sorting algorithms.
 add_executable(GenKnapSackData "main_knapsack.cpp")
